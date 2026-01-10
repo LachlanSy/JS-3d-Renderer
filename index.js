@@ -1,4 +1,4 @@
-// Set colours (can also implement a colour switch later when I pop shaders in)
+ // Set colours (can also implement a colour switch later when I pop shaders in)
 const BACKGROUND = "black";
 const FOREGROUND = "white";
 
@@ -33,12 +33,12 @@ function screen(p) {
 //}
 
 // Generate the new coordinate, which projects in x,y,z rather than x,y (this function works so long as z /= 0 (inside camera))
-function project({x, y, z}){
+/* function project({x, y, z}){
     return{
         x: x/z,
         y: y/z
     }
-}
+} */
 
 // Set certain important values for animation
 const FPS = 60;
@@ -47,7 +47,18 @@ let angle = 0;
 
 // Create an object for the position properties [-1,1]. These objects are "points"
 const points = [
-    {x:0.5, y:0.5, z:0.5},
+
+    new vector(0.5, 0.5, 0.5),
+    new vector(-0.5, 0.5, 0.5),
+    new vector(-0.5, -0.5, 0.5),
+    new vector(0.5, -0.5, 0.5),
+
+    new vector(0.5, 0.5, -0.5),
+    new vector(-0.5, 0.5, -0.5),
+    new vector(-0.5, -0.5, -0.5),
+    new vector(0.5, -0.5, -0.5)
+]
+    /* {x:0.5, y:0.5, z:0.5},
     {x:-0.5, y:0.5, z:0.5},
     {x:-0.5, y:-0.5, z:0.5},
     {x:0.5, y:-0.5, z:0.5},
@@ -56,8 +67,8 @@ const points = [
     {x:-0.5, y:0.5, z:-0.5},
     {x:-0.5, y:-0.5, z:-0.5},
     {x:0.5, y:-0.5, z:-0.5},
+ */
 
-]
 
 // Create an array containing a list of line segments to be joined, index i gets connected to i+1.. When i+1 > length.list, i+1%length.list (This should be updated to be made from another function)
 const faces = [
@@ -80,18 +91,18 @@ const faces = [
 ]
 
 // Simple function that adds little value dz to z, which translates it by amount dz (only thing that could be added is internal paramater to change speed)
-function translate_z({x,y,z}, dz){
+/* function translate_z({x,y,z}, dz){
     return{x,y,z: z + dz}
-}
+} */
 
 // Simple function that rotates the object around xz using rotation matrices
-function rotate_xz({x,y,z}, angle){
+/* function rotate_xz({x,y,z}, angle){
     return{
         x: x * Math.cos(angle)- z * Math.sin(angle),
         y, 
         z: x * Math.sin(angle)+ z * Math.cos(angle)
     }
-}
+} */
 
 // Function that draws the lines, controls some variables such as line width and colour, then make a path from p1 and p2, then fill the line
 function line_renderer(p1, p2){
@@ -116,9 +127,8 @@ function frame_information(){
             const a = points[f[i]];
             const b = points[f[(i + 1)%f.length]];
             line_renderer(
-            screen(project(translate_z(rotate_xz(a, angle), 2))),
-            screen(project(translate_z(rotate_xz(b, angle), 2)))
-            );
+            screen(a.clone().rotateXZ(angle).translateZ(2).project()),
+            screen(b.clone().rotateXZ(angle).translateZ(2).project()))
         }
     }
     setTimeout(frame_information, 1000/FPS)
