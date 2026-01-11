@@ -23,6 +23,7 @@ To alter translations and rotations to the object in 3D space, edit the line_ren
 
 ## To Do
 
+- [ ] Implement homogeneous coordinates 
 - [ ] Create a function to break shapes of vertices > 3 into triangles
 - [ ] Implement triangle rasterisation
 - [ ] Create some way to import models from common model files
