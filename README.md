@@ -23,11 +23,11 @@ To alter translations and rotations to the object in 3D space, edit the line_ren
 
 ## To Do
 
-- [] Create a function to break shapes of vertices > 3 into triangles
-- [] Implement triangle rasterisation
-- [] Create some way to import models from common model files
-- [] Create a shader algorithm
-- [] Implement OOP methods to create common shapes
+- [ ] Create a function to break shapes of vertices > 3 into triangles
+- [ ] Implement triangle rasterisation
+- [ ] Create some way to import models from common model files
+- [ ] Create a shader algorithm
+- [ ] Implement OOP methods to create common shapes
 
 ## Contact
 
