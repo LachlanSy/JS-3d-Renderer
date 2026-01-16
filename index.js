@@ -44,8 +44,9 @@ function screen(p) {
 const FPS = 60;
 let dz = 1;
 let angle = 0;
-
+const numbers = false;
 // Create an object for the position properties [-1,1]. These objects are "points"
+
 const points = [
 
     new vector(0.5, 0.5, 0.5),
@@ -72,24 +73,16 @@ const points = [
 
 // Create an array containing a list of line segments to be joined, index i gets connected to i+1.. When i+1 > length.list, i+1%length.list (This should be updated to be made from another function)
 const faces = [
-    [0,1,2,3],
-    [4,5,6,7],
-    [0,4],
-    [1,5],
-    [2,6],
-    [3,7],
-    [1,4],
-
-
-    [2,5],
-    [3, 6],
-    [0, 7],
-
-    [1,3],
-    [6,4]
 
 ]
 
+function number_points(number_to_print, point){
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'red';
+        if(numbers == true){
+    ctx.fillText(number_to_print, point.x, point.y);
+    }
+}
 // Simple function that adds little value dz to z, which translates it by amount dz (only thing that could be added is internal paramater to change speed)
 /* function translate_z({x,y,z}, dz){
     return{x,y,z: z + dz}
@@ -106,12 +99,18 @@ const faces = [
 
 // Function that draws the lines, controls some variables such as line width and colour, then make a path from p1 and p2, then fill the line
 function line_renderer(p1, p2){
-    ctx.lineWidth = 5 
+    ctx.lineWidth = 1 
     ctx.strokeStyle = FOREGROUND;
     ctx.beginPath();
     ctx.moveTo(p1.x, p1.y);
     ctx.lineTo(p2.x, p2.y);
     ctx.stroke();
+
+}
+
+function trianglify(v1, v2, v3){
+    let trianglify = [points[v1], points[v2], points[v3]];
+    faces.push(trianglify);
 }
 
 // This is the frame information, we can generate animations using the values such as fps, dz and angle. Speed of animation is controlled in here.
@@ -119,13 +118,15 @@ function frame_information(){
     const dt = 1/FPS;
     dz += 1*dt
     angle += 0.5 * Math.PI*dt
-    clean();
-
+    clean()
     // Iterate through the list of faces, take the first and second point and join them in lines. Go through all faces.
     for (const f of faces){
         for(let i = 0; i < f.length; ++i){
-            const a = points[f[i]];
-            const b = points[f[(i + 1)%f.length]];
+            const a = f[i];
+            const b = f[(i + 1)%f.length];
+            for(let i = 0; i < points.length; i++){
+        number_points(i, screen(points[i].clone().rotateXZ(angle).translateZ(2).project()))
+        }
             line_renderer(
             screen(a.clone().rotateXZ(angle).translateZ(2).project()),
             screen(b.clone().rotateXZ(angle).translateZ(2).project()))
@@ -133,4 +134,20 @@ function frame_information(){
     }
     setTimeout(frame_information, 1000/FPS)
 }
+initialise_triangles();
 setTimeout(frame_information, 1000/FPS)
+
+function initialise_triangles(){
+    trianglify(0, 1, 2);
+    trianglify(0, 2, 3);
+    trianglify(0, 4, 5);
+    trianglify(0, 1, 5);
+    trianglify(5, 4, 6);
+    trianglify(6, 4, 7);
+    trianglify(6, 2, 5);
+    trianglify(2, 5, 1);
+    trianglify(2, 6, 3);
+    trianglify(3, 6, 7);
+    trianglify(3, 7, 4);
+    trianglify(0, 4, 3);
+}
