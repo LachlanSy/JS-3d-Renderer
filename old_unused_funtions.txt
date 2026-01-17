@@ -1,0 +1,41 @@
+These functions are in here either due to;
+ - Being moved to a different file
+ - Not being needed, yet may be useful in future, therefore are commented out
+
+
+Simple function that adds little value dz to z, which translates it by amount dz (only thing that could be added is internal paramater to change speed)
+
+function translate_z({x,y,z}, dz){
+    return{x,y,z: z + dz}
+} 
+
+
+Simple function that rotates the object around xz using rotation matrices
+
+function rotate_xz({x,y,z}, angle){
+    return{
+        x: x * Math.cos(angle)- z * Math.sin(angle),
+        y, 
+        z: x * Math.sin(angle)+ z * Math.cos(angle)
+    }
+}
+
+
+This function places a small point 
+
+function make_point({ x, y }) {
+  const thickness = 20;
+  ctx.fillStyle = FOREGROUND;
+  ctx.fillRect(x - thickness/2, y - thickness/2, thickness, thickness);
+}
+
+
+Generate the new coordinate, which projects in x,y,z rather than x,y (this function works so long as z /= 0 (inside camera))
+
+function project({x, y, z}){
+    return{
+        x: x/z,
+        y: y/z
+    }
+} 
+

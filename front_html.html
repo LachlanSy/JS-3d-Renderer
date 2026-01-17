@@ -1,3 +1,112 @@
-<canvas id="window"></canvas>
-<script src = "vectors.js"></script>
-<script src="index.js"></script>
+<html>
+<head>
+
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+
+    <canvas id="window"></canvas> 
+    
+    <br>
+    <section id = "Z_direction">
+    <label> z direction:</label>
+    <input id = "Z_direction_value" value = "2">
+    <button id="Z_direction_button">Submit</button>
+    </section>
+
+    <br>
+    <section id = "Y_direction">
+    <label> y direction:</label>
+    <input id = "Y_direction_value" value = "0">
+    <button id="Y_direction_button">Submit</button>
+    </section>
+
+
+    <br>
+    <section id = "X_direction">
+    <label> x direction:</label>
+    <input id = "X_direction_value" value = "0">
+    <button id="X_direction_button">Submit</button>
+    </section>
+
+    <br>
+    <section id = "Z_velocity">
+    <label> z velocity:</label>
+    <input id = "Z_velocity_value" value = "0">
+    <button id="Z_velocity_button">Submit</button>
+    </section>
+    
+    <br>
+    <section id = "Y_velocity">
+    <label> y velocity:</label>
+    <input id = "Y_velocity_value" value = "0">
+    <button id="Y_velocity_button">Submit</button>
+    </section>
+
+    <br>
+    <section id = "X_velocity">
+    <label> x velocity:</label>
+    <input id = "X_velocity_value" value = "0">
+    <button id="X_velocity_button">Submit</button>
+    </section>
+
+    <br>
+    <section id = "Pitch">
+    <label> pitch:</label>
+    <input id = "pitch_value" value = "0">
+    <button id="pitch_button">Submit</button>
+    </section>
+
+    <br>
+    <section id = "Roll">
+    <label> roll:</label>
+    <input id = "roll_value" value = "0">
+    <button id="roll_button">Submit</button>
+    </section>
+
+    <br>
+    <section id = "Yaw">
+    <label> yaw:</label>
+    <input id = "yaw_value" value = "0">
+    <button id="yaw_button">Submit</button>
+    </section>
+
+    <br>
+    <section id="Pitch_velocity">
+    <label> pitch velocity:</label>
+    <input id = "pitch_velocity_value" value = "0">
+    <button id="pitch_velocity_button">Submit</button>
+    </section>
+
+    <br>
+    <section id = "Roll_velocity">
+    <label> roll velocity:</label>
+    <input id = "roll_velocity_value" value = "0">
+    <button id="roll_velocity_button">Submit</button>
+    </section>
+
+    <br>
+    <section id="Yaw_velocity">
+    <label> yaw velocity:</label>
+    <input id = "yaw_velocity_value" value = "0.5pi">
+    <button id="yaw_velocity_button">Submit</button>
+    </section>
+
+    <br>
+    <section id="Reset_rotations_section">
+    <label> Reset rotation to (0,0,0):</label>
+    <button id="Reset_rotations">Reset</button>
+    </section>
+
+    <section id="Reset_positions_section">
+    <label> Reset position to (0,0,0):</label>
+    <button id="Reset_positions">Reset</button>
+    </section>
+
+    <br>
+    <input id="objFile" type="file" accept=".obj">
+    <script src = "vectors.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

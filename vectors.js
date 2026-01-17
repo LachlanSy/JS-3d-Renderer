@@ -56,11 +56,23 @@ class vector{
         }
      }
 
+     // Function that moves the vector by factor dz
      translateZ(dz){
         this.z += dz;
         return this;
     }
 
+     translateX(dx){
+        this.x += dx;
+        return this;
+    }
+
+     translateY(dy){
+        this.y += dy;
+        return this;
+    }
+
+    // Function that rotates the object according to the rotation matrix
     rotateXZ(angle){
         const cos = Math.cos(angle);
         const sin = Math.sin(angle);
@@ -74,6 +86,35 @@ class vector{
         return this;
     }
 
+    rotateYZ(angle){
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+
+        const y = this.y * cos - this.z * sin;
+        const z = this.y * sin + this.z * cos;
+
+        this.y = y;
+        this.z = z;
+
+        return this;
+    }
+        
+    rotateXY(angle){
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+
+        const x = this.x * cos - this.y * sin;
+        const y = this.x * sin + this.y * cos;
+
+        this.x = x;
+        this.y = y;
+
+        return this;
+    }
+
+    
+
+    // Function that projects using z-projection
     project(){
         return {
             x: this.x / this.z,
@@ -81,16 +122,11 @@ class vector{
         };
     }
 
+
+    // Returns a clone of the same vector to preserve geometry over transformations
     clone() {
         return new vector(this.x, this.y, this.z);
     }
 }
 
-
-// To do:
-// Move common vector related mathematics to vector class
-
-// The methods are instance methods such that object methods are able to
-// to be chained together, previously they were static methods but 
-// that didn't let me chain methods.
 

@@ -24,29 +24,32 @@ function screen(p) {
   };
 }
 
-//This function can be reactivated, it is to place a small point rather than a line
-
-//function make_point({ x, y }) {
- // const thickness = 20;
-  //ctx.fillStyle = FOREGROUND;
-  //ctx.fillRect(x - thickness/2, y - thickness/2, thickness, thickness);
-//}
-
-// Generate the new coordinate, which projects in x,y,z rather than x,y (this function works so long as z /= 0 (inside camera))
-/* function project({x, y, z}){
-    return{
-        x: x/z,
-        y: y/z
-    }
-} */
-
 // Set certain important values for animation
 const FPS = 60;
-let dz = 1;
-let angle = 0;
-const numbers = false;
-// Create an object for the position properties [-1,1]. These objects are "points"
 
+// Base change in z, y and x (not animated)
+let dz = 2;
+let dy = 0;
+let dx = 0;
+
+// Base angle changes
+let pitch = 0;
+let roll= 0;
+let yaw = 0;
+
+// Animated movement in dz, dy or dx
+let change_in_dz = 0;
+let change_in_dy = 0;
+let change_in_dx = 0;
+
+// Animated change in pitch, yaw and roll
+let change_in_pitch = 0/* .5 * Math.PI */;
+let change_in_roll = 0 /* 0.5 * Math.PI */;
+let change_in_yaw = 0.5 * Math.PI;
+
+const numbers = false
+
+// Create an object for the position properties [-1,1]. These objects are "points"
 const points = [
 
     new vector(0.5, 0.5, 0.5),
@@ -59,17 +62,6 @@ const points = [
     new vector(-0.5, -0.5, -0.5),
     new vector(0.5, -0.5, -0.5)
 ]
-    /* {x:0.5, y:0.5, z:0.5},
-    {x:-0.5, y:0.5, z:0.5},
-    {x:-0.5, y:-0.5, z:0.5},
-    {x:0.5, y:-0.5, z:0.5},
-
-    {x:0.5, y:0.5, z:-0.5},
-    {x:-0.5, y:0.5, z:-0.5},
-    {x:-0.5, y:-0.5, z:-0.5},
-    {x:0.5, y:-0.5, z:-0.5},
- */
-
 
 // Create an array containing a list of line segments to be joined, index i gets connected to i+1.. When i+1 > length.list, i+1%length.list (This should be updated to be made from another function)
 const faces = [
@@ -83,19 +75,6 @@ function number_points(number_to_print, point){
     ctx.fillText(number_to_print, point.x, point.y);
     }
 }
-// Simple function that adds little value dz to z, which translates it by amount dz (only thing that could be added is internal paramater to change speed)
-/* function translate_z({x,y,z}, dz){
-    return{x,y,z: z + dz}
-} */
-
-// Simple function that rotates the object around xz using rotation matrices
-/* function rotate_xz({x,y,z}, angle){
-    return{
-        x: x * Math.cos(angle)- z * Math.sin(angle),
-        y, 
-        z: x * Math.sin(angle)+ z * Math.cos(angle)
-    }
-} */
 
 // Function that draws the lines, controls some variables such as line width and colour, then make a path from p1 and p2, then fill the line
 function line_renderer(p1, p2){
@@ -108,6 +87,85 @@ function line_renderer(p1, p2){
 
 }
 
+
+document.getElementById("Z_direction_button").onclick = function(){
+    dz = parseFloat(document.getElementById("Z_direction_value").value);
+}
+
+document.getElementById("Y_direction_button").onclick = function(){
+    dy = parseFloat(document.getElementById("Y_direction_value").value);
+}
+
+document.getElementById("X_direction_button").onclick = function(){
+    dx = parseFloat(document.getElementById("X_direction_value").value);
+}
+
+document.getElementById("Z_velocity_button").onclick = function(){
+    change_in_dz = parseFloat(document.getElementById("Z_velocity_value").value);
+}
+
+document.getElementById("Y_velocity_button").onclick = function(){
+    change_in_dy = parseFloat(document.getElementById("Y_velocity_value").value);
+}
+
+document.getElementById("X_velocity_button").onclick = function(){
+    change_in_dx = parseFloat(document.getElementById("X_velocity_value").value);
+}
+
+document.getElementById("pitch_button").onclick = function(){
+    pitch = parseFloat(document.getElementById("pitch_value").value);
+}
+
+document.getElementById("roll_button").onclick = function(){
+    roll = parseFloat(document.getElementById("roll_value").value);
+}
+
+document.getElementById("yaw_button").onclick = function(){
+    yaw = parseFloat(document.getElementById("yaw_value").value);
+}
+
+document.getElementById("pitch_velocity_button").onclick = function(){
+    change_in_pitch = parseFloat(document.getElementById("pitch_velocity_value").value);
+}
+
+document.getElementById("roll_velocity_button").onclick = function(){
+    change_in_roll = parseFloat(document.getElementById("roll_velocity_value").value);
+}
+
+document.getElementById("yaw_velocity_button").onclick = function(){
+    change_in_yaw = parseFloat(document.getElementById("yaw_velocity_value").value);
+}
+
+document.getElementById("Reset_positions").onclick = function(){
+    dz = 0;
+    dx = 0;
+    dy = 0;
+    change_in_dx = 0;
+    change_in_dy = 0;
+    change_in_dz = 0;
+    document.getElementById("Z_direction_value").value = '0';
+    document.getElementById("Y_direction_value").value = '0';
+    document.getElementById("X_direction_value").value = '0';
+    document.getElementById("Z_velocity_value").value = '0';
+    document.getElementById("Y_velocity_value").value = '0';
+    document.getElementById("X_velocity_value").value = '0';
+}
+
+document.getElementById("Reset_rotations").onclick = function(){
+    pitch = 0;
+    yaw = 0;
+    roll = 0;
+    change_in_pitch = 0;
+    change_in_yaw = 0;
+    change_in_roll = 0;
+    document.getElementById("pitch_value").value = '0';
+    document.getElementById("roll_value").value = '0';
+    document.getElementById("yaw_value").value = '0';
+    document.getElementById("pitch_velocity_value").value = '0';
+    document.getElementById("yaw_velocity_value").value = '0';
+    document.getElementById("roll_velocity_value").value = '0';
+}
+
 function trianglify(v1, v2, v3){
     let trianglify = [points[v1], points[v2], points[v3]];
     faces.push(trianglify);
@@ -116,26 +174,31 @@ function trianglify(v1, v2, v3){
 // This is the frame information, we can generate animations using the values such as fps, dz and angle. Speed of animation is controlled in here.
 function frame_information(){
     const dt = 1/FPS;
-    dz += 1*dt
-    angle += 0.5 * Math.PI*dt
+    
+    dz += change_in_dz*dt;
+    dy += change_in_dy*dt;
+    dx += change_in_dx*dt;
+    
+    pitch += change_in_pitch*dt;
+    roll += change_in_roll*dt;
+    yaw += change_in_yaw*dt;
+    
     clean()
     // Iterate through the list of faces, take the first and second point and join them in lines. Go through all faces.
     for (const f of faces){
         for(let i = 0; i < f.length; ++i){
             const a = f[i];
             const b = f[(i + 1)%f.length];
-            for(let i = 0; i < points.length; i++){
-        number_points(i, screen(points[i].clone().rotateXZ(angle).translateZ(2).project()))
-        }
             line_renderer(
-            screen(a.clone().rotateXZ(angle).translateZ(2).project()),
-            screen(b.clone().rotateXZ(angle).translateZ(2).project()))
+            screen(a.clone().rotateYZ(pitch).rotateXZ(yaw).rotateXY(roll).translateZ(dz).translateY(dy).translateX(dx).project()),
+            screen(b.clone().rotateYZ(pitch).rotateXZ(yaw).rotateXY(roll).translateZ(dz).translateY(dy).translateX(dx).project()))
         }
     }
     setTimeout(frame_information, 1000/FPS)
 }
 initialise_triangles();
 setTimeout(frame_information, 1000/FPS)
+upload_handler();
 
 function initialise_triangles(){
     trianglify(0, 1, 2);
@@ -150,4 +213,79 @@ function initialise_triangles(){
     trianglify(3, 6, 7);
     trianglify(3, 7, 4);
     trianglify(0, 4, 3);
+}
+
+function upload_handler(){
+   const file_input = document.querySelector("#objFile");
+
+  file_input.addEventListener("change", () => {
+   const file_reader = new FileReader();
+
+   file_reader.readAsText(file_input.files[0]);
+
+   file_reader.addEventListener('load', () => {
+    const obj_data = file_reader.result;
+    read_into_renderer(obj_data)
+   })
+  }, {once:true})
+
+}
+
+const list_obj_data = [
+
+]
+
+
+function read_into_renderer(obj_data){
+
+    const lines = obj_data.split(/\r?\n/);
+    list_obj_data.length = 0;
+    for (line of lines){
+        list_obj_data.push(line);
+    }
+    console.log(list_obj_data);
+
+    // Reset current shape
+
+    points.length = 0;
+    faces.length = 0;
+
+    for(line of lines){
+        constituents = line.trim();
+        if(!constituents || constituents.startsWith("#")) continue;
+
+        // Code for the points
+
+        if(constituents.startsWith("v ")){
+            const parts = constituents.split(/\s+/);
+            const x_coordinate = parseFloat(parts[1]);
+            const y_coordinate = parseFloat(parts[2]);
+            const z_coordinate = parseFloat(parts[3]);
+            points.push(new vector(x_coordinate, y_coordinate, z_coordinate));
+            continue;
+        }
+
+    // faces
+
+    if(constituents.startsWith("f ")){
+        const parts = constituents.split(/\s+/).slice(1);
+
+        const holding_indexes = [];
+        for(const indexes of parts){
+            let index = indexes.split("/")[0];
+        
+        if(index < 0) index = points.length + index + 1;
+
+        holding_indexes.push(index - 1);
+        }
+
+        if(holding_indexes.length < 3) return;
+
+        for(let i = 1; i < holding_indexes.length - 1; i++){
+            trianglify(holding_indexes[0], holding_indexes[i], holding_indexes[i+1]);
+        }
+
+    }
+}
+console.log("Loaded:", points.length, "vertices,", faces.length, "triangles");
 }

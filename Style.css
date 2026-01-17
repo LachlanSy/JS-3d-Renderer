@@ -1,0 +1,89 @@
+#z_direction{
+    position:absolute;
+    top: 100px;
+    left: 900px;
+}
+
+#y_direction{
+    position:absolute;
+    top: 150px;
+    left: 900px;
+}
+
+#x_direction{
+    position:absolute;
+    top: 200px;
+    left: 900px;
+}
+
+#z_velocity{
+    position:absolute;
+    top: 100px;
+    left: 1300px;
+}
+
+#y_velocity{
+    position:absolute;
+    top: 150px;
+    left: 1300px;
+}
+
+#x_velocity{
+    position:absolute;
+    top: 200px;
+    left: 1300px;
+}
+
+#Pitch{
+    position: absolute;
+    top: 300px;
+    left: 900px;
+}
+
+#Roll{
+    position: absolute;
+    top: 350px;
+    left: 900px;
+}
+
+#Yaw{
+    position: absolute;
+    top: 400px;
+    left: 900px;
+}
+
+#Pitch_velocity{
+    position: absolute;
+    top: 300px;
+    left: 1300px;
+}
+
+#Roll_velocity{
+    position: absolute;
+    top: 350px;
+    left: 1300px;
+}
+
+#Yaw_velocity{
+    position: absolute;
+    top: 400px;
+    left: 1300px;
+}
+
+#objFile{
+    position:absolute;
+    top: 600px;
+    left: 1100px;
+}
+
+#Reset_positions_section{
+    position:absolute;
+    top: 250px;
+    left: 1100;
+}
+
+#Reset_rotations_section{
+    position:absolute;
+    top:500px;
+    left: 1100px;
+}
